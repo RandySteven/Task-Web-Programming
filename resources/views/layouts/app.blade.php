@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="120">
+    <meta http-equiv="refresh" content="600">
     <title>@yield('title')</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="icon" href="{{ asset('images/mail.png') }}">
+    @yield('style')
 </head>
 <body class="bg-dark text-white">
     <!-- Navbar -->
@@ -25,15 +26,30 @@
             </li>
           </ul>
 
-          <li class="nav-item dropdown">
+          @if (!Auth::user())
+          <li class="nav-item dropdown left-panel float-right">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Sign in/Sign up
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="#">Register</a>
-              <a class="dropdown-item" href="#">Login</a>
+              <a class="dropdown-item" href="{{ route('register') }}">Register</a>
+              <a class="dropdown-item" href="{{ route('login') }}">Login</a>
             </div>
           </li>
+          @else
+          <li class="nav-item dropdown left-panel">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src="{{ Auth::user()->gravatar() }}" class="rounded-circle" width="30" height="30" alt="">
+                {{ Auth::user()->name }}
+              </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <form action="{{ route('logout') }}" method="post">
+                    @csrf
+                    <button class="btn btn-link">logout</button>
+                </form>
+            </div>
+          </li>
+          @endif
         </div>
     </nav>
 
@@ -44,7 +60,7 @@
     <div class="container text-center text-black" style="background-color: lightgrey">
         &copy; Randy Steven 2020
         <p>
-            Menyediakan tentang tutorial koding dan forum untuk para programmer agar bisa sharing khususnya di Web Development.
+            Menyediakan tentang berita dan artikel terkini tentang apa yang terjadi di dunia.
             <br>
             Luaskan ilmu yang bermanfaat.
         </p>
@@ -56,7 +72,7 @@
             <a href="#"><img src="images/twitter.png" class="navbar-toggler-icon rounded-circle"  alt=""></a>
         </p>
         <p>
-            Programmer membuat sesuatu dengan penuh cinta.
+            Menambah ilmu dengan berita yang jujur.
         </p>
         <!-- <button class="btn btn-outline-secondary" onclick="darkmode()">Darkmode</button> -->
     </div>

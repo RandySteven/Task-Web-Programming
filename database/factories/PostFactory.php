@@ -11,6 +11,7 @@ $factory->define(Post::class, function (Faker $faker) {
         'slug' => \Str::slug($faker->sentence()),
         'body' => $faker->paragraph(10),
         'author' => $faker->sentence(),
-        'thumbnail' => $faker->image('public/storage/images/post', 640, 480, null, false)
+        'user_id' => 1,
+        'thumbnail' => 'images/post/'.$faker->image('public/storage/images/post', 640, 480, null, false)
     ];
 });

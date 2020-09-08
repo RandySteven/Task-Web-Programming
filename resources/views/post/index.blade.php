@@ -2,6 +2,10 @@
 
 @section('title', 'Media Post')
 
+@section('style')
+
+@endsection
+
 @section('content')
 <div class="container  my-2 text-center">
 <img src="images/large-removebg-preview-removebg-preview.png"  style="background-color: black;" alt="logo">
@@ -32,11 +36,35 @@
 </div>
 
 <div class="container">
+    {{-- @if (session()->has('success'))
+        <div class="container alert-success">
+            {{ session() }}
+        </div>
+    @endif --}}
   <div>
     <div class="float-right mb-4">
-      <a href="{{ route('post.create') }}" class="btn btn-success">Add Post +</a>
+        @if (Auth::user())
+            <a href="{{ route('post.create') }}" class="btn btn-success">Add Post +</a>
+        @else
+            You need to <a href="{{ route('login') }}">login</a> first to create the post
+        @endif
     </div>
     <h1>Media Post</h1>
+    Total posts : <strong>{{ $post_counts }}</strong>
+    <form action="{{ route('search') }}" method="get">
+        @csrf
+        <div class="input-group">
+            <input type="text" name="query" class="form-control" id="" placeholder="Search by title">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+                        <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+                    </svg>
+                </span>
+            </div>
+        </div>
+    </form>
   </div>
   <table class="table table-dark text-white table-hover">
       <thead>
@@ -50,7 +78,10 @@
       <tbody>
         @forelse ($posts as $post)
         <tr class="border border-white my-4 rounded">
-            <td><img src="{{ $post->takeImage }}" style="width:250px;height:250px" alt=""></td>
+            <td>
+                <img src="{{ $post->takeImage }}" style="width:250px;height:250px" alt="{{ "thumbnail-" }}">
+                Created by : <strong>{{ $post->user->name }}</strong>
+            </td>
             <td>
               <strong>
                 {{ $post->title }}
@@ -65,7 +96,11 @@
 
             <td>
               <a href="{{ route('post.edit', $post->slug) }}" class="btn btn-success  mb-3 mb-3">Edit</a>
-              <button class="btn btn-danger">Delete</button>
+              <form action="{{ route('post.delete', $post->slug) }}" method="post">
+                  @csrf
+                  @method('DELETE')
+                  <button class="btn btn-danger">Delete</button>
+              </form>
             </td>
           </tr>
         @empty

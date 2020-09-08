@@ -6,7 +6,7 @@
 <div class="container my-4 border">
 
 <h3 class="text-center"><strong>Edit</strong></h3>
-<form action="{{ route('post.store') }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('post.update', $post->slug) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PATCH')
     <div class="form-group">
