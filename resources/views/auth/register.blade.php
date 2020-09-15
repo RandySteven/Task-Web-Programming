@@ -72,6 +72,10 @@
                             </div>
                         </div>
                     </form>
+                    <div class="container text-center mt-4">
+                        Or <br>
+                        <a href="{{ route('login') }}">Sign in</a>
+                    </div>
                 </div>
             </div>
         </div>

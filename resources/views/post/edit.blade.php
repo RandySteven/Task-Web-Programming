@@ -25,13 +25,24 @@
     </div>
 
     <div class="form-group">
-        <label for="">Nama Penulis</label>
-        <input type="text" class="form-control bg-dark text-white" name="author" value="{{ old('author') ?? $post->author }}">
+        <label for="">Category</label>
+        <select name="category" class="form-control" id="">
+            <option disabled selected>Choose one</option>
+            @foreach ($categories as $category)
+                <option value="{{ $category->id }}" {{ $category->id == $post->category_id ? "selected" : '' }}>{{ $category->name }}</option>
+            @endforeach
+        </select>
+        <div class="text text-danger">
+            @error('category')
+                {{ $message }}
+            @enderror
+        </div>
     </div>
 
     <div class="container mx-auto">
-      <button type="submit" class="btn btn-primary mb-1 text-center">Submit</button>
+        <button type="submit" class="btn btn-primary mb-1 text-center">Submit</button>
     </div>
+
 </form>
 </div>
 @endsection

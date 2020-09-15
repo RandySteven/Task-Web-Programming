@@ -8,7 +8,7 @@
 
 @section('content')
 <div class="container  my-2 text-center">
-<img src="images/large-removebg-preview-removebg-preview.png"  style="background-color: black;" alt="logo">
+<img src="{{ asset('images/large-removebg-preview-removebg-preview.png') }}"  style="background-color: black;" alt="logo">
 </div>
 <div class="container my-4">
   <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -41,16 +41,25 @@
             {{ session() }}
         </div>
     @endif --}}
+    <div class="container">
+        @foreach ($categories as $category)
+            <a href="/category/{{ $category->slug }}" class="btn btn-danger">{{ $category->name }}</a>
+        @endforeach
+    </div>
+
   <div>
     <div class="float-right mb-4">
         @if (Auth::user())
             <a href="{{ route('post.create') }}" class="btn btn-success">Add Post +</a>
         @else
-            You need to <a href="{{ route('login') }}">login</a> first to create the post
+            You need to <a href="{{ route('register') }}">register</a> or <a href="{{ route('login') }}">login</a> first to create the post
         @endif
     </div>
-    <h1>Media Post</h1>
-    Total posts : <strong>{{ $post_counts }}</strong>
+
+
+        <h1>Media Post</h1>
+        Total posts : <strong>{{ $post_counts }}</strong>
+
     <form action="{{ route('search') }}" method="get">
         @csrf
         <div class="input-group">
@@ -80,12 +89,13 @@
         <tr class="border border-white my-4 rounded">
             <td>
                 <img src="{{ $post->takeImage }}" style="width:250px;height:250px" alt="{{ "thumbnail-" }}">
-                Created by : <strong>{{ $post->user->name }}</strong>
             </td>
             <td>
               <strong>
-                {{ $post->title }}
-              </strong>
+                  {{ $post->title }}
+                </strong><br>
+                Created by : <strong>{{ $post->author->name }}</strong><br>
+                Category : <strong>{{ $post->category->name }}</strong>
             </td>
             <td>
               <p>
@@ -95,12 +105,15 @@
             </td>
 
             <td>
-              <a href="{{ route('post.edit', $post->slug) }}" class="btn btn-success  mb-3 mb-3">Edit</a>
-              <form action="{{ route('post.delete', $post->slug) }}" method="post">
-                  @csrf
-                  @method('DELETE')
-                  <button class="btn btn-danger">Delete</button>
-              </form>
+                <a href="{{ route('post.edit', $post->slug) }}" class="btn btn-success  mb-3 mb-3">Edit</a>
+
+                    <form action="{{ route('post.delete', $post->slug) }}" method="post">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
+
+
             </td>
           </tr>
         @empty

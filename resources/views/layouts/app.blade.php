@@ -26,7 +26,7 @@
             </li>
           </ul>
 
-          @if (!Auth::user())
+          @guest
           <li class="nav-item dropdown left-panel float-right">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Sign in/Sign up
@@ -47,9 +47,13 @@
                     @csrf
                     <button class="btn btn-link">logout</button>
                 </form>
+                <a href="{{ route('user', Auth::user()->id) }}" class="dropdown-item">See profile</a>
+                @if (Auth::user()->hasRole('admin'))
+                    <a href="{{ route('dashboard') }}" class="dropdown-item">Dashboard</a>
+                @endif
             </div>
           </li>
-          @endif
+          @endguest
         </div>
     </nav>
 
@@ -65,11 +69,11 @@
             Luaskan ilmu yang bermanfaat.
         </p>
         <p>
-            <a href="https://www.facebook.com/"><img src="images/facebook.png" class="navbar-toggler-icon rounded-circle"  alt=""></a>
-            <a href="https://github.com/"><img src="images/github.png" class="navbar-toggler-icon rounded-circle"  alt=""></a>
-            <a href="https://www.instagram.com/"><img src="images/logo.png" class="navbar-toggler-icon rounded-circle"  alt=""></a>
-            <a href="https://www.youtube.com/"><img src="images/youtube.png" class="navbar-toggler-icon rounded-circle"  alt=""></a>
-            <a href="#"><img src="images/twitter.png" class="navbar-toggler-icon rounded-circle"  alt=""></a>
+            <a href="https://www.facebook.com/"><img src="{{ asset('images/facebook.png') }}" class="navbar-toggler-icon rounded-circle"  alt=""></a>
+            <a href="https://github.com/"><img src="{{ asset('images/github.png') }}" class="navbar-toggler-icon rounded-circle"  alt=""></a>
+            <a href="https://www.instagram.com/"><img src="{{ asset('images/logo.png') }}" class="navbar-toggler-icon rounded-circle"  alt=""></a>
+            <a href="https://www.youtube.com/"><img src="{{ asset('images/youtube.png') }}" class="navbar-toggler-icon rounded-circle"  alt=""></a>
+            <a href="#"><img src="{{ asset('images/twitter.png') }}" class="navbar-toggler-icon rounded-circle"  alt=""></a>
         </p>
         <p>
             Menambah ilmu dengan berita yang jujur.

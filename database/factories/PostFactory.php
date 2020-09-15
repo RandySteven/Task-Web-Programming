@@ -10,8 +10,8 @@ $factory->define(Post::class, function (Faker $faker) {
         'title' => $faker->sentence(),
         'slug' => \Str::slug($faker->sentence()),
         'body' => $faker->paragraph(10),
-        'author' => $faker->sentence(),
-        'user_id' => 1,
+        'user_id' => rand(2,11),
+        'category_id' => rand(1, 8),
         'thumbnail' => 'images/post/'.$faker->image('public/storage/images/post', 640, 480, null, false)
     ];
 });
