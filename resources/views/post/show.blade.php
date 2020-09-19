@@ -78,10 +78,7 @@
 
       @foreach ($post->files as $file)
           @if ($file->photo)
-              <img src="{{ asset('/storage/'.$file->photo) }}" alt="">
-          @endif
-          @if ($file->video)
-              <video src="{{ asset('/storage/'.$file->video) }}"></video>
+              <img src="{{ asset('/storage/'.$file->photo) }}" alt="" style="width: 18rem; height: 18rem">
           @endif
       @endforeach
 

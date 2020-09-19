@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\File;
 use App\Http\Requests\PostRequest;
+use App\Jobs\ProcessMail;
 use App\Mail\Newsletter;
 use App\Post;
 use App\User;
@@ -69,11 +70,11 @@ class PostController extends Controller
         $this->authorize('delete', $post);
         $post->delete($post);
         \Storage::delete($post->thumbnail);
-        return redirect('/');
+        return back();
     }
 
     public function mail(Request $request){
-        Mail::to($request->user())->send(new Newsletter);
+        $this->dispatch(new ProcessMail());
         return back();
     }
 }

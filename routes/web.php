@@ -28,12 +28,15 @@ Route::middleware(['auth'])->group(function(){
     //mail
     Route::post('/store-email', 'PostController@mail')->name('post.email');
 });
+//See user
+Route::get('/user/{user}', 'UserController@show')->name('user');
 
 Auth::routes();
 
 //admin dashboard
-Route::middleware(['role:admin', 'auth'])->get('/dashboard', 'AdminController@index')->name('dashboard');
-Route::get('/user/{user}', 'UserController@show')->name('user');
+Route::middleware(['role:admin', 'auth'])->group(function(){
+    Route::get('/dashboard', 'AdminController@index')->name('dashboard');
+});
 
 //Search
 Route::get('/post-search', 'SearchController@show')->name('search');

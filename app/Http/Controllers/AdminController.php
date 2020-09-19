@@ -13,6 +13,7 @@ class AdminController extends Controller
         $categories = Category::all();
         $users = User::all();
         $posts = Post::all();
-        return view('dashboard', compact('categories', 'users', 'posts'));
+        $category = Category::get();
+        return view('dashboard', compact('categories', 'users', 'posts', 'category'));
     }
 }

@@ -14,4 +14,5 @@ class CategoryController extends Controller
         $categories = Category::all();
         return view('post.index', compact('posts', 'post_counts', 'categories', 'category'));
     }
+
 }
